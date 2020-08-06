@@ -32,6 +32,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   http: any
+  shared_preferences: ^0.5.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -48,9 +49,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
   assets:
-    - images/light_rain.jpeg
-    - images/umbrella.jpeg
-    - images/white_snow.jpeg
+    - images/light_rain.png
+    - images/umbrella.png
+    - images/white_snow.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

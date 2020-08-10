@@ -62,10 +62,13 @@ class _WeatherState extends State<Weather> {
   }
 
   //named navigation
-  _goToAddCities() {
+  void _goToAddCities() {
     Navigator.pushNamed(context, '/addCities');
   }
 
+  void _goToManageCities() {
+    Navigator.pushNamed(context, '/manageCities');
+  }
 
   Widget updateTempWidget(String city) {
     return new FutureBuilder(
@@ -102,50 +105,86 @@ class _WeatherState extends State<Weather> {
 
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
-      appBar:   AppBar(
-          title: Center(
-            child: Text('Weatherman'),
-          ),
-        backgroundColor: Colors.redAccent,
-      ),
-      body: new Stack(children: <Widget>[
-        new Center(
-            child: new Image.asset('images/umbrella.png',
+    return Scaffold(
+//      appBar: AppBar(
+//        title: Center(
+//          child: Text('Weatherman'),
+//        ),
+//        backgroundColor: Colors.redAccent,
+//      ),
+      body: Stack(children: <Widget>[
+        Center(
+            child: Image.asset('images/umbrella.png',
                 width: 490.0, height: 1200.0, fit: BoxFit.fill)),
-        new Container(
-            alignment: Alignment.topRight,
-            margin: const EdgeInsets.fromLTRB(0.0, 10.9, 20.5, 0.0),
-            child: new Text(
+        Container(
+          margin: const EdgeInsets.fromLTRB(20.0, 50.9, 20.5, 0.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.filter_list,
+                    size: 30.0,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    _goToManageCities();
+                  },
+                ),
+              ),
+              Flexible(
+                flex: 4,
+                child: Text(
+                  'Weatherman',
+                  style: navText(),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add_circle,
+                    color: Colors.white,
+                    size: 30.0,
+                  ),
+                  onPressed: () {
+                    _goToAddCities();
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+        Container(
+            alignment: Alignment.topCenter,
+            margin: const EdgeInsets.fromLTRB(0.0, 250.9, 0.0, 0.0),
+            child: Text(
               '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
               style: cityStyle(),
             )),
-        new Container(
-          alignment: Alignment.center,
-          child: new Image.asset('images/light_rain.png'),
-        ),
         updateTempWidget(_cityEntered),
       ]),
-      floatingActionButton: new FloatingActionButton(
-          tooltip: 'Add Item',
-          backgroundColor: Colors.redAccent,
-          child: new ListTile(title: new Icon(Icons.add)),
-          onPressed: (){
-            _goToAddCities();
-          } ),
+//      floatingActionButton: new FloatingActionButton(
+//          tooltip: 'Add Item',
+//          backgroundColor: Colors.redAccent,
+//          child: ListTile(title: new Icon(Icons.add)),
+//          onPressed: () {
+//            _goToAddCities();
+//          }),
     );
   }
 }
 
-
 //Style
 TextStyle cityStyle() {
-  return new TextStyle(
+  return TextStyle(
       color: Colors.white, fontSize: 22.9, fontStyle: FontStyle.italic);
 }
 
 TextStyle weatherStyle() {
-  return new TextStyle(
+  return TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 49.9,
@@ -153,6 +192,13 @@ TextStyle weatherStyle() {
 }
 
 TextStyle description() {
-  return new TextStyle(
+  return TextStyle(
       color: Colors.white70, fontSize: 17.0, fontStyle: FontStyle.normal);
+}
+
+TextStyle navText() {
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 20.0,
+  );
 }

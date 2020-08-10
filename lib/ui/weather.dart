@@ -61,6 +61,12 @@ class _WeatherState extends State<Weather> {
     }
   }
 
+  //named navigation
+  _goToAddCities() {
+    Navigator.pushNamed(context, '/addCities');
+  }
+
+
   Widget updateTempWidget(String city) {
     return new FutureBuilder(
         future:
@@ -124,6 +130,13 @@ class _WeatherState extends State<Weather> {
         ),
         updateTempWidget(_cityEntered),
       ]),
+      floatingActionButton: new FloatingActionButton(
+          tooltip: 'Add Item',
+          backgroundColor: Colors.redAccent,
+          child: new ListTile(title: new Icon(Icons.add)),
+          onPressed: (){
+            _goToAddCities();
+          } ),
     );
   }
 }

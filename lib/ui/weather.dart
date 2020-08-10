@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weatherApp/ui/navBar.dart';
 
 import './util/utils.dart' as utils;
 
@@ -116,47 +117,7 @@ class _WeatherState extends State<Weather> {
         Center(
             child: Image.asset('images/umbrella.png',
                 width: 490.0, height: 1200.0, fit: BoxFit.fill)),
-        Container(
-          margin: const EdgeInsets.fromLTRB(20.0, 50.9, 20.5, 0.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.filter_list,
-                    size: 30.0,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    _goToManageCities();
-                  },
-                ),
-              ),
-              Flexible(
-                flex: 4,
-                child: Text(
-                  'Weatherman',
-                  style: navText(),
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.add_circle,
-                    color: Colors.white,
-                    size: 30.0,
-                  ),
-                  onPressed: () {
-                    _goToAddCities();
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
+        NavBar(),
         Container(
             alignment: Alignment.topCenter,
             margin: const EdgeInsets.fromLTRB(0.0, 250.9, 0.0, 0.0),
@@ -194,11 +155,4 @@ TextStyle weatherStyle() {
 TextStyle description() {
   return TextStyle(
       color: Colors.white70, fontSize: 17.0, fontStyle: FontStyle.normal);
-}
-
-TextStyle navText() {
-  return TextStyle(
-    color: Colors.white,
-    fontSize: 20.0,
-  );
 }

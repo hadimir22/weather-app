@@ -18,31 +18,55 @@ class AddCities extends StatelessWidget {
           title: new Text('Add city'),
           backgroundColor: Colors.redAccent,
       ),
-      backgroundColor: Colors.white30,
+      backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
           ListView(
             children: <Widget>[
-              new ListTile(
-                  title: new TextField(
-                    decoration: new InputDecoration(hintText: 'Enter City'),
-                    controller: _cityFieldController,
-                    keyboardType: TextInputType.text,
-                  )),
-              new ListTile(
-                  title: new FlatButton(
-                      onPressed: () {
-                        _saveCities(_cityFieldController.text);
-                        Navigator.pop(
-                            context, {'enter': _cityFieldController.text});
-                      },
-                      color: Colors.redAccent,
-                      textColor: Colors.white70,
-                      child: new Text("Add")))
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.2, 10.0, 0.2, 10.0),
+                child: new ListTile(
+                    title: new TextField(
+                      cursorColor: Colors.redAccent,
+                      decoration: new InputDecoration(
+                        suffixIcon: IconButton(icon: Icon(Icons.search, color: Colors.redAccent), onPressed: () => _cityFieldController.clear(), ),
+                        hintText: 'search city',
+                          border: OutlineInputBorder(),
+                          focusedBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+                    ),
+                      ),
+                      controller: _cityFieldController,
+                      keyboardType: TextInputType.text,
+                      style: inputStyle(),
+                    )),
+              ),
+//              Padding(
+//                padding: const EdgeInsets.fromLTRB(0.2, 10.0, 0.2, 10.0),
+//                child: new ListTile(
+//                    title: new FlatButton(
+//                        onPressed: () {
+//                          _saveCities(_cityFieldController.text);
+//                          Navigator.pop(
+//                              context, {'enter': _cityFieldController.text});
+//                        },
+//                        color: Colors.redAccent,
+//                        textColor: Colors.white70,
+//                        child: new Text("Add"))),
+//              )
             ],
           )
         ],
       ),
     );
   }
+}
+
+
+//style
+
+TextStyle inputStyle() {
+  return new TextStyle(
+      color: Colors.redAccent,
+      fontStyle: FontStyle.normal);
 }

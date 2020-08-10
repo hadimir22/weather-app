@@ -138,7 +138,7 @@ class _WeatherState extends State<Weather> {
 }
 
 
-
+//Style
 TextStyle cityStyle() {
   return new TextStyle(
       color: Colors.white, fontSize: 22.9, fontStyle: FontStyle.italic);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ManageCities extends StatefulWidget {
   @override
@@ -10,9 +11,16 @@ class _ManageCitiesState extends State<ManageCities> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text('Manage cities'),
+        title: new Text(
+          'Manage cities',
+          style: screenName(),
+        ),
         backgroundColor: Colors.redAccent,
       ),
     );
   }
+}
+
+TextStyle screenName() {
+  return GoogleFonts.josefinSans(textStyle: TextStyle());
 }

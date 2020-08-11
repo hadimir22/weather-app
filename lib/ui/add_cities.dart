@@ -40,22 +40,23 @@ class AddCities extends StatelessWidget {
                   ),
                   controller: _cityFieldController,
                   keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.search,
                   style: inputStyle(),
                 )),
               ),
-//              Padding(
-//                padding: const EdgeInsets.fromLTRB(0.2, 10.0, 0.2, 10.0),
-//                child: new ListTile(
-//                    title: new FlatButton(
-//                        onPressed: () {
-//                          _saveCities(_cityFieldController.text);
-//                          Navigator.pop(
-//                              context, {'enter': _cityFieldController.text});
-//                        },
-//                        color: Colors.redAccent,
-//                        textColor: Colors.white70,
-//                        child: new Text("Add"))),
-//              )
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.2, 10.0, 0.2, 10.0),
+                child: new ListTile(
+                    title: new FlatButton(
+                        onPressed: () {
+                          _saveCities(_cityFieldController.text);
+                          Navigator.pop(
+                              context, {'enter': _cityFieldController.text});
+                        },
+                        color: Colors.redAccent,
+                        textColor: Colors.white70,
+                        child: new Text("Add"))),
+              )
             ],
           )
         ],

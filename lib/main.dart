@@ -4,7 +4,7 @@ import 'package:weatherApp/ui/manage_cities.dart';
 import './ui//weather.dart';
 
 void main() {
-  runApp(new MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Weatherman',
     initialRoute: 'home',

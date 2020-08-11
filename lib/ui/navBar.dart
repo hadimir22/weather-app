@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -62,8 +63,7 @@ class _NavBarState extends State<NavBar> {
 }
 
 TextStyle navText() {
-  return TextStyle(
-    color: Colors.white,
-    fontSize: 20.0,
-  );
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w600));
 }

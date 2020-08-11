@@ -92,7 +92,7 @@ class _AddCitiesState extends State<AddCities> {
                 )),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0.2, 10.0, 0.2, 10.0),
+                padding: const EdgeInsets.fromLTRB(0.2, 0.0, 0.2, 10.0),
                 child: new ListTile(
                     title: RaisedButton(
                         splashColor: Colors.black26,

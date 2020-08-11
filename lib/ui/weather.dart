@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weatherApp/ui/navBar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import './util/utils.dart' as utils;
 
@@ -48,7 +49,7 @@ class _WeatherState extends State<Weather> {
     return json.decode(response.body);
   }
 
-//navigatin
+//navigation
   Future _goToNextScreen(BuildContext context) async {
     Map results = await Navigator.of(context)
         .push(new MaterialPageRoute<Map>(builder: (BuildContext context) {
@@ -99,6 +100,8 @@ class _WeatherState extends State<Weather> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
     return Scaffold(
       body: Stack(children: <Widget>[
         Center(
@@ -106,12 +109,21 @@ class _WeatherState extends State<Weather> {
                 width: 490.0, height: 1200.0, fit: BoxFit.fill)),
         NavBar(),
         Container(
-            alignment: Alignment.topCenter,
-            margin: const EdgeInsets.fromLTRB(0.0, 150.9, 0.0, 0.0),
-            child: Text(
-              '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
-              style: cityStyle(),
-            )),
+          alignment: Alignment.topCenter,
+          margin: const EdgeInsets.fromLTRB(0.0, 150.9, 0.0, 0.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
+                style: cityStyle(),
+              ),
+              Text(
+                '${formattedDate}',
+                style: dateStyle(),
+              )
+            ],
+          ),
+        ),
         updateTempWidget(_cityEntered),
       ]),
 //      floatingActionButton: new FloatingActionButton(
@@ -143,4 +155,10 @@ TextStyle weatherStyle() {
 TextStyle description() {
   return TextStyle(
       color: Colors.white70, fontSize: 17.0, fontStyle: FontStyle.normal);
+}
+
+TextStyle dateStyle() {
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.white70, fontSize: 20.0, fontStyle: FontStyle.normal));
 }

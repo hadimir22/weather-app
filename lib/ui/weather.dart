@@ -73,25 +73,25 @@ class _WeatherState extends State<Weather> {
           if (snapshot.hasData) {
             Map content = snapshot.data;
             return new Container(
-                margin: const EdgeInsets.fromLTRB(30.0, 250.0, 0.0, 0.0),
+//                margin: const EdgeInsets.fromLTRB(30.0, 250.0, 0.0, 0.0),
                 child: new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      new ListTile(
+                  new ListTile(
+                    title: new Text(
+                      content['main']['temp'].toStringAsFixed(1).toString(),
+                      style: weatherStyle(),
+                    ),
+                    subtitle: new ListTile(
                         title: new Text(
-                          content['main']['temp'].toString(),
-                          style: weatherStyle(),
-                        ),
-                        subtitle: new ListTile(
-                            title: new Text(
-                          " ${content['weather'][0]['description'].toString()}\n"
-                          "Humidity : ${content['main']['humidity'].toString()}\n"
-                          "Min : ${content['main']['temp_min'].toString()}\n"
-                          "Max : ${content['main']['temp_max'].toString()}\n",
-                          style: description(),
-                        )),
-                      )
-                    ]));
+                      " ${content['weather'][0]['description'].toString()}\n"
+                      "Humidity : ${content['main']['humidity'].toString()}\n"
+                      "Min : ${content['main']['temp_min'].toString()}\n"
+                      "Max : ${content['main']['temp_max'].toString()}\n",
+                      style: description(),
+                    )),
+                  )
+                ]));
           } else {
             return new Container();
           }
@@ -118,13 +118,13 @@ class _WeatherState extends State<Weather> {
                 style: cityStyle(),
               ),
               Text(
-                '${formattedDate}',
+                '$formattedDate',
                 style: dateStyle(),
-              )
+              ),
             ],
           ),
         ),
-        updateTempWidget(_cityEntered),
+        Center(child: updateTempWidget(_cityEntered)),
       ]),
 //      floatingActionButton: new FloatingActionButton(
 //          tooltip: 'Add Item',

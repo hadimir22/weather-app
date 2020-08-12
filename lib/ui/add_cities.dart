@@ -17,7 +17,7 @@ class _AddCitiesState extends State<AddCities> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (city != null && city.isNotEmpty) {
       storedCities = await _loadSavedCities();
-      print('stored ${storedCities}');
+      print('stored $storedCities');
       if (storedCities == null) {
         //first time input
         selectedCities.add(city);

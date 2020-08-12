@@ -29,7 +29,7 @@ class _ManageCitiesState extends State<ManageCities> {
     }
 
 //    print('meaow ${await _loadSavedCities()}');
-    print('jios ${storedCities}');
+    print('jios $storedCities');
   }
 
   Future<List> _loadSavedCities() async {
@@ -43,12 +43,53 @@ class _ManageCitiesState extends State<ManageCities> {
     }
   }
 
-  // Used to build list items that haven't been removed.
-  Widget _buildItem(
-      BuildContext context, int index, Animation<double> animation) {
-    return CardItem(
-      animation: animation,
-      item: storedCities[index],
+  void _removeCity(int index, String city) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var citiesTempHolder = await _loadSavedCities();
+    print('temp, $citiesTempHolder');
+    citiesTempHolder.remove(city);
+    print('after $citiesTempHolder');
+    await prefs.setStringList('cities', citiesTempHolder);
+
+    int removeIndex = index;
+    String removedItem = storedCities.removeAt(removeIndex);
+    // This builder is just so that the animation has something
+    // to work with before it disappears from view since the
+    // original has already been deleted.
+    AnimatedListRemovedItemBuilder builder = (context, animation) {
+      // A method to build the Card widget.
+      return _buildItem(removedItem, index, animation);
+    };
+    _listKey.currentState.removeItem(removeIndex, builder);
+  }
+
+  Widget _buildItem(String item, index, Animation animation) {
+    return SizeTransition(
+      sizeFactor: animation,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                item,
+                style: listStyle(),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.remove_circle,
+                  size: 20.0,
+                  color: Colors.redAccent,
+                ),
+                onPressed: () {
+                  _removeCity(index, item);
+                },
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -62,12 +103,17 @@ class _ManageCitiesState extends State<ManageCities> {
           ),
           backgroundColor: Colors.redAccent,
         ),
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: AnimatedList(
             key: _listKey,
             initialItemCount: storedCities.length,
-            itemBuilder: _buildItem,
+            itemBuilder: (context, index, animation) {
+              return _buildItem(storedCities[index], index, animation);
+            },
+
+//            _buildItem,
           ),
         ));
   }
@@ -82,47 +128,8 @@ TextStyle screensName() {
       textStyle: TextStyle(backgroundColor: Colors.redAccent));
 }
 
-class CardItem extends StatelessWidget {
-  const CardItem(
-      {Key key,
-      @required this.animation,
-      this.onTap,
-      @required this.item,
-      this.selected = false})
-      : assert(animation != null),
-        assert(item != null && item >= 0),
-        assert(selected != null),
-        super(key: key);
-
-  final Animation<double> animation;
-  final VoidCallback onTap;
-  final int item;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.headline4;
-    if (selected)
-      textStyle = textStyle.copyWith(color: Colors.lightGreenAccent[400]);
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: SizeTransition(
-        axis: Axis.vertical,
-        sizeFactor: animation,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onTap,
-          child: SizedBox(
-            height: 80.0,
-            child: Card(
-              color: Colors.primaries[item % Colors.primaries.length],
-              child: Center(
-                child: Text('Item $item', style: textStyle),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+TextStyle listStyle() {
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold));
 }

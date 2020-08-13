@@ -64,6 +64,7 @@ class _ManageCitiesState extends State<ManageCities> {
   }
 
   Widget _buildItem(String item, index, Animation animation) {
+    print(item);
     return SizeTransition(
       sizeFactor: animation,
       child: Card(
@@ -131,5 +132,5 @@ TextStyle screensName() {
 TextStyle listStyle() {
   return GoogleFonts.josefinSans(
       textStyle: TextStyle(
-          color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold));
+          color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold));
 }

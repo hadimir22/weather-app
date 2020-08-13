@@ -117,9 +117,12 @@ class _WeatherState extends State<Weather> {
                 '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
                 style: cityStyle(),
               ),
-              Text(
-                '$formattedDate',
-                style: dateStyle(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '$formattedDate',
+                  style: dateStyle(),
+                ),
               ),
             ],
           ),

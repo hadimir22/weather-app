@@ -136,5 +136,5 @@ TextStyle hintStyle() {
 TextStyle btnText() {
   return GoogleFonts.josefinSans(
       textStyle: TextStyle(
-          fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white));
+          fontSize: 19.0, fontWeight: FontWeight.bold, color: Colors.white));
 }

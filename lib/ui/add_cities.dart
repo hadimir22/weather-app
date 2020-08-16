@@ -38,14 +38,6 @@ class _AddCitiesState extends State<AddCities> {
 
   Future<List> _loadSavedCities() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-//    setState(() {
-//      if (prefs.getString('cities') != null &&
-//          prefs.getString('cities').isNotEmpty) {
-//        _savedCities = prefs.getString('cities');
-//      } else {}
-//
-//    });
-    print('okay, ${prefs.getStringList('cities')}');
     if (prefs.getStringList('cities') != null &&
         prefs.getStringList('cities').isNotEmpty) {
       return prefs.getStringList('cities');

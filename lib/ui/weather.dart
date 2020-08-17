@@ -64,39 +64,6 @@ class _WeatherState extends State<Weather> {
     }
   }
 
-//  Widget updateTempWidget(String city) {
-//    return new FutureBuilder(
-//        future:
-//            getWeather(utils.apiKey, city == null ? utils.defaultCity : city),
-//        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
-//          //this is where we get all of the JSON data, we set up widgets etc.
-//          if (snapshot.hasData) {
-//            Map content = snapshot.data;
-//            return Column(
-//                mainAxisAlignment: MainAxisAlignment.center,
-//                crossAxisAlignment: CrossAxisAlignment.center,
-//                children: <Widget>[
-//                  ListTile(
-//                    title: Text(
-//                      content['main']['temp'].toStringAsFixed(1).toString(),
-//                      style: weatherStyle(),
-//                    ),
-//                    subtitle: ListTile(
-//                        title: Text(
-//                      " ${content['weather'][0]['description'].toString()}\n"
-//                      "Humidity : ${content['main']['humidity'].toString()}\n"
-//                      "Min : ${content['main']['temp_min'].toString()}\n"
-//                      "Max : ${content['main']['temp_max'].toString()}\n",
-//                      style: description(),
-//                    )),
-//                  )
-//                ]);
-//          } else {
-//            return Container();
-//          }
-//        });
-//  }
-
   Widget updateTempWidget(String city) {
     return new FutureBuilder(
         future:
@@ -148,7 +115,7 @@ class _WeatherState extends State<Weather> {
         NavBar(),
         Container(
           alignment: Alignment.topCenter,
-          margin: const EdgeInsets.fromLTRB(0.0, 150.9, 0.0, 0.0),
+          margin: const EdgeInsets.fromLTRB(0.0, 180.0, 0.0, 0.0),
           child: Column(
             children: <Widget>[
               Text(

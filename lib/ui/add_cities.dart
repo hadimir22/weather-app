@@ -64,6 +64,7 @@ class _AddCitiesState extends State<AddCities> {
                 child: new ListTile(
                     title: new TextField(
                   cursorColor: Colors.redAccent,
+                  autofocus: true,
                   decoration: new InputDecoration(
                     suffixIcon: IconButton(
                       icon: Icon(Icons.search, color: Colors.redAccent),

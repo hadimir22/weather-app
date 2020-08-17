@@ -11,7 +11,8 @@ class _ManageCitiesState extends State<ManageCities> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   String _cityEntered;
   String _savedCities = "";
-  dynamic storedCities;
+//  dynamic storedCities;
+  List<String> storedCities = [];
 
   @override
   void initState() {
@@ -43,9 +44,7 @@ class _ManageCitiesState extends State<ManageCities> {
   void _removeCity(int index, String city) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var citiesTempHolder = await _loadSavedCities();
-    print('temp, $citiesTempHolder');
     citiesTempHolder.remove(city);
-    print('after $citiesTempHolder');
     await prefs.setStringList('cities', citiesTempHolder);
 
     int removeIndex = index;
@@ -57,7 +56,7 @@ class _ManageCitiesState extends State<ManageCities> {
   }
 
   Widget _buildItem(String item, index, Animation animation) {
-    print('hi thr l ${storedCities.length}');
+    print('hi thr l ${storedCities.runtimeType}');
     return SizeTransition(
       sizeFactor: animation,
       child: Card(
@@ -106,8 +105,6 @@ class _ManageCitiesState extends State<ManageCities> {
             itemBuilder: (context, index, animation) {
               return _buildItem(storedCities[index], index, animation);
             },
-
-//            _buildItem,
           ),
         ));
   }

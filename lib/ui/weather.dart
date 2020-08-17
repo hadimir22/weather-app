@@ -64,6 +64,39 @@ class _WeatherState extends State<Weather> {
     }
   }
 
+//  Widget updateTempWidget(String city) {
+//    return new FutureBuilder(
+//        future:
+//            getWeather(utils.apiKey, city == null ? utils.defaultCity : city),
+//        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+//          //this is where we get all of the JSON data, we set up widgets etc.
+//          if (snapshot.hasData) {
+//            Map content = snapshot.data;
+//            return Column(
+//                mainAxisAlignment: MainAxisAlignment.center,
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                children: <Widget>[
+//                  ListTile(
+//                    title: Text(
+//                      content['main']['temp'].toStringAsFixed(1).toString(),
+//                      style: weatherStyle(),
+//                    ),
+//                    subtitle: ListTile(
+//                        title: Text(
+//                      " ${content['weather'][0]['description'].toString()}\n"
+//                      "Humidity : ${content['main']['humidity'].toString()}\n"
+//                      "Min : ${content['main']['temp_min'].toString()}\n"
+//                      "Max : ${content['main']['temp_max'].toString()}\n",
+//                      style: description(),
+//                    )),
+//                  )
+//                ]);
+//          } else {
+//            return Container();
+//          }
+//        });
+//  }
+
   Widget updateTempWidget(String city) {
     return new FutureBuilder(
         future:
@@ -72,28 +105,33 @@ class _WeatherState extends State<Weather> {
           //this is where we get all of the JSON data, we set up widgets etc.
           if (snapshot.hasData) {
             Map content = snapshot.data;
-            return new Container(
-//                margin: const EdgeInsets.fromLTRB(30.0, 250.0, 0.0, 0.0),
-                child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  new ListTile(
-                    title: new Text(
-                      content['main']['temp'].toStringAsFixed(1).toString(),
-                      style: weatherStyle(),
-                    ),
-                    subtitle: new ListTile(
-                        title: new Text(
-                      " ${content['weather'][0]['description'].toString()}\n"
-                      "Humidity : ${content['main']['humidity'].toString()}\n"
-                      "Min : ${content['main']['temp_min'].toString()}\n"
-                      "Max : ${content['main']['temp_max'].toString()}\n",
-                      style: description(),
-                    )),
-                  )
-                ]));
+            return Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.fromLTRB(0.0, 300, 0.0, 100),
+              child: Column(children: <Widget>[
+                Text(
+                  content['main']['temp'].toStringAsFixed(1).toString() + ' C',
+                  style: weatherStyle(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
+                  child: Text(
+                    " ${content['weather'][0]['description'].toString()}\n",
+                    style: description(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+                  child: Text(
+                    "${content['main']['temp_min'].toStringAsFixed(1).toString()} / "
+                    "${content['main']['temp_max'].toStringAsFixed(1).toString()}",
+                    style: description(),
+                  ),
+                )
+              ]),
+            );
           } else {
-            return new Container();
+            return Container();
           }
         });
   }
@@ -148,16 +186,21 @@ TextStyle cityStyle() {
 }
 
 TextStyle weatherStyle() {
-  return TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
-      fontSize: 49.9,
-      fontStyle: FontStyle.normal);
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w400,
+          fontSize: 49.9,
+          fontStyle: FontStyle.normal));
 }
 
 TextStyle description() {
-  return TextStyle(
-      color: Colors.white70, fontSize: 17.0, fontStyle: FontStyle.normal);
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.white70,
+          fontSize: 20.0,
+          fontStyle: FontStyle.normal,
+          fontWeight: FontWeight.bold));
 }
 
 TextStyle dateStyle() {

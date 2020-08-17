@@ -27,9 +27,6 @@ class _ManageCitiesState extends State<ManageCities> {
         storedCities = citiesTempHolder;
       });
     }
-
-//    print('meaow ${await _loadSavedCities()}');
-    print('jios $storedCities');
   }
 
   Future<List> _loadSavedCities() async {
@@ -53,18 +50,14 @@ class _ManageCitiesState extends State<ManageCities> {
 
     int removeIndex = index;
     String removedItem = storedCities.removeAt(removeIndex);
-    // This builder is just so that the animation has something
-    // to work with before it disappears from view since the
-    // original has already been deleted.
     AnimatedListRemovedItemBuilder builder = (context, animation) {
-      // A method to build the Card widget.
       return _buildItem(removedItem, index, animation);
     };
     _listKey.currentState.removeItem(removeIndex, builder);
   }
 
   Widget _buildItem(String item, index, Animation animation) {
-    print(item);
+    print('hi thr l ${storedCities.length}');
     return SizeTransition(
       sizeFactor: animation,
       child: Card(

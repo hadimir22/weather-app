@@ -11,8 +11,7 @@ class _ManageCitiesState extends State<ManageCities> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   String _cityEntered;
   String _savedCities = "";
-//  dynamic storedCities;
-  List<String> storedCities = [];
+  dynamic storedCities;
 
   @override
   void initState() {
@@ -27,7 +26,11 @@ class _ManageCitiesState extends State<ManageCities> {
       setState(() {
         storedCities = citiesTempHolder;
       });
+    } else {
+      storedCities = [];
     }
+    print(storedCities);
+    print(citiesTempHolder);
   }
 
   Future<List> _loadSavedCities() async {
@@ -50,36 +53,38 @@ class _ManageCitiesState extends State<ManageCities> {
     int removeIndex = index;
     String removedItem = storedCities.removeAt(removeIndex);
     AnimatedListRemovedItemBuilder builder = (context, animation) {
-      return _buildItem(removedItem, index, animation);
+      return _buildItem(removedItem, animation, index);
     };
     _listKey.currentState.removeItem(removeIndex, builder);
   }
 
-  Widget _buildItem(String item, index, Animation animation) {
+  Widget _buildItem(String item, Animation animation, int index) {
     print('hi thr l ${storedCities.runtimeType}');
     return SizeTransition(
       sizeFactor: animation,
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                item,
-                style: listStyle(),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.remove_circle,
-                  size: 20.0,
-                  color: Colors.redAccent,
-                ),
-                onPressed: () {
-                  _removeCity(index, item);
-                },
-              )
-            ],
+        elevation: 3,
+        child: ListTile(
+          title: Text(
+            item,
+            style: listStyle(),
+          ),
+          trailing: IconButton(
+            icon: Icon(
+              Icons.remove_circle,
+              size: 20.0,
+              color: Colors.redAccent,
+            ),
+            onPressed: () {
+              _removeCity(index, item);
+            },
+          ),
+          leading: CircleAvatar(
+            backgroundColor: Colors.redAccent,
+            child: Text(
+              item[0],
+              style: avatarText(),
+            ),
           ),
         ),
       ),
@@ -103,7 +108,7 @@ class _ManageCitiesState extends State<ManageCities> {
             key: _listKey,
             initialItemCount: storedCities.length,
             itemBuilder: (context, index, animation) {
-              return _buildItem(storedCities[index], index, animation);
+              return _buildItem(storedCities[index], animation, index);
             },
           ),
         ));
@@ -123,4 +128,10 @@ TextStyle listStyle() {
   return GoogleFonts.josefinSans(
       textStyle: TextStyle(
           color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold));
+}
+
+TextStyle avatarText() {
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold));
 }

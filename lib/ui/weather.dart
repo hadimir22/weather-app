@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weatherApp/ui/navBar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 
 import './util/utils.dart' as utils;
@@ -17,26 +18,6 @@ class Weather extends StatefulWidget {
 
 class _WeatherState extends State<Weather> {
   String _cityEntered;
-  String _savedCities = "";
-
-  @override
-  void initState() {
-    // This is called on init
-    super.initState();
-    _loadSavedCities();
-  }
-
-  _loadSavedCities() async {
-    print("cdm");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (prefs.getString('cities') != null &&
-          prefs.getString('cities').isNotEmpty) {
-        _savedCities = prefs.getString('cities');
-      } else {}
-      print(_savedCities);
-    });
-  }
 
   void fetchData() async {
     Map data = await getWeather(utils.apiKey, utils.defaultCity);
@@ -107,40 +88,99 @@ class _WeatherState extends State<Weather> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
-    return Scaffold(
-      body: Stack(children: <Widget>[
-        Center(
-            child: Image.asset('images/umbrella.png',
-                width: 490.0, height: 1200.0, fit: BoxFit.fill)),
-        NavBar(),
-        Container(
-          alignment: Alignment.topCenter,
-          margin: const EdgeInsets.fromLTRB(0.0, 180.0, 0.0, 0.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
-                style: cityStyle(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '$formattedDate',
-                  style: dateStyle(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Center(child: updateTempWidget(_cityEntered)),
-      ]),
-//      floatingActionButton: new FloatingActionButton(
-//          tooltip: 'Add Item',
-//          backgroundColor: Colors.redAccent,
-//          child: ListTile(title: new Icon(Icons.add)),
-//          onPressed: () {
-//            _goToAddCities();
-//          }),
+    return FullScreenCarousel();
+  }
+}
+
+class FullScreenCarousel extends StatefulWidget {
+  @override
+  _FullScreenCarouselState createState() => _FullScreenCarouselState();
+}
+
+class _FullScreenCarouselState extends State<FullScreenCarousel> {
+  dynamic storedCities;
+  String _cityEntered;
+
+  @override
+  void initState() {
+    // This is called on init
+    super.initState();
+    getCities();
+  }
+
+  getCities() async {
+    var citiesTempHolder = await _loadSavedCities();
+    if (citiesTempHolder != null && citiesTempHolder.isNotEmpty) {
+      setState(() {
+        storedCities = citiesTempHolder;
+      });
+    } else {
+      storedCities = [];
+    }
+    print('yaw $storedCities');
+  }
+
+  Future<List> _loadSavedCities() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getStringList('cities') != null &&
+        prefs.getStringList('cities').isNotEmpty) {
+      return prefs.getStringList('cities');
+    } else {
+      print('no city');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
+    return Builder(
+      builder: (context) {
+        final double height = MediaQuery.of(context).size.height;
+        return CarouselSlider(
+            options: CarouselOptions(
+              height: height,
+              viewportFraction: 1.0,
+              enlargeCenterPage: false,
+              enableInfiniteScroll: true,
+            ),
+            items: storedCities
+                .map<Widget>((city) => Scaffold(
+                      body: Stack(
+                        children: <Widget>[
+                          Center(
+                              child: Image.asset('images/umbrella.png',
+                                  width: 490.0,
+                                  height: 1200.0,
+                                  fit: BoxFit.fill)),
+                          NavBar(),
+                          Container(
+                            alignment: Alignment.topCenter,
+                            margin:
+                                const EdgeInsets.fromLTRB(0.0, 180.0, 0.0, 0.0),
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
+                                  style: cityStyle(),
+                                ),
+                                Text('$city', style: cityStyle()),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '$formattedDate',
+                                    style: dateStyle(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ))
+                .toList());
+      },
     );
   }
 }

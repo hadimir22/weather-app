@@ -9,9 +9,8 @@ class ManageCities extends StatefulWidget {
 
 class _ManageCitiesState extends State<ManageCities> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  String _cityEntered;
-  String _savedCities = "";
   dynamic storedCities;
+//  List<String> storedCities = List();
 
   @override
   void initState() {
@@ -29,7 +28,7 @@ class _ManageCitiesState extends State<ManageCities> {
     } else {
       storedCities = [];
     }
-    print(storedCities);
+    print('yaw $storedCities');
     print(citiesTempHolder);
   }
 

@@ -34,6 +34,8 @@ class _AddCitiesState extends State<AddCities> {
     } else {
       print("city is null");
     }
+    _cityFieldController.clear();
+    _goToHome();
   }
 
   Future<List> _loadSavedCities() async {
@@ -42,6 +44,10 @@ class _AddCitiesState extends State<AddCities> {
         prefs.getStringList('cities').isNotEmpty) {
       return prefs.getStringList('cities');
     }
+  }
+
+  void _goToHome() {
+    Navigator.pushNamed(context, 'home');
   }
 
   @override
@@ -103,7 +109,6 @@ class _AddCitiesState extends State<AddCities> {
                           style: btnText(),
                         ))),
               ),
-              Text(_cityFieldController.text)
             ],
           )
         ],

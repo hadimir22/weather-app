@@ -19,6 +19,23 @@ class Weather extends StatefulWidget {
 class _WeatherState extends State<Weather> {
   String _cityEntered;
 
+  @override
+  Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
+    return FullScreenCarousel();
+  }
+}
+
+class FullScreenCarousel extends StatefulWidget {
+  @override
+  _FullScreenCarouselState createState() => _FullScreenCarouselState();
+}
+
+class _FullScreenCarouselState extends State<FullScreenCarousel> {
+  dynamic storedCities;
+  String _cityEntered;
+
   void fetchData() async {
     Map data = await getWeather(utils.apiKey, utils.defaultCity);
     print(data.toString());
@@ -28,21 +45,6 @@ class _WeatherState extends State<Weather> {
     String apiURL = "${utils.apiURL}$city&APPID=${utils.apiKey}&units=metric";
     http.Response response = await http.get(apiURL);
     return json.decode(response.body);
-  }
-
-//navigation
-  Future _goToNextScreen(BuildContext context) async {
-    Map results = await Navigator.of(context)
-        .push(new MaterialPageRoute<Map>(builder: (BuildContext context) {
-//      return new ChangeCity();
-    }));
-
-    if (results != null && results.containsKey('enter')) {
-      print(results['enter'].toString());
-      _cityEntered = results['enter'];
-      print(_cityEntered);
-      print('recieved');
-    }
   }
 
   Widget updateTempWidget(String city) {
@@ -55,7 +57,7 @@ class _WeatherState extends State<Weather> {
             Map content = snapshot.data;
             return Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.fromLTRB(0.0, 300, 0.0, 100),
+              margin: EdgeInsets.fromLTRB(0.0, 50, 0.0, 100),
               child: Column(children: <Widget>[
                 Text(
                   content['main']['temp'].toStringAsFixed(1).toString() + ' C',
@@ -83,23 +85,6 @@ class _WeatherState extends State<Weather> {
           }
         });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
-    return FullScreenCarousel();
-  }
-}
-
-class FullScreenCarousel extends StatefulWidget {
-  @override
-  _FullScreenCarouselState createState() => _FullScreenCarouselState();
-}
-
-class _FullScreenCarouselState extends State<FullScreenCarousel> {
-  dynamic storedCities;
-  String _cityEntered;
 
   @override
   void initState() {
@@ -143,7 +128,7 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
               height: height,
               viewportFraction: 1.0,
               enlargeCenterPage: false,
-              enableInfiniteScroll: true,
+              enableInfiniteScroll: false,
             ),
             items: storedCities
                 .map<Widget>((city) => Scaffold(
@@ -161,10 +146,10 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
                                 const EdgeInsets.fromLTRB(0.0, 180.0, 0.0, 0.0),
                             child: Column(
                               children: <Widget>[
-                                Text(
-                                  '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
-                                  style: cityStyle(),
-                                ),
+//                                Text(
+//                                  '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
+//                                  style: cityStyle(),
+//                                ),
                                 Text('$city', style: cityStyle()),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -173,6 +158,7 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
                                     style: dateStyle(),
                                   ),
                                 ),
+                                updateTempWidget(city)
                               ],
                             ),
                           ),

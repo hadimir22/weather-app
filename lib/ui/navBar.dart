@@ -58,7 +58,6 @@ class _NavBarState extends State<NavBar> {
   }
 
   void _goToManageCities() {
-    debugPrint("put city");
     Navigator.pushNamed(context, '/manageCities');
   }
 }

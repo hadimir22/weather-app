@@ -30,7 +30,6 @@ class _AddCitiesState extends State<AddCities> {
       }
 
       prefs.setStringList('cities', selectedCities);
-      print(await _loadSavedCities());
     } else {
       print("city is null");
     }

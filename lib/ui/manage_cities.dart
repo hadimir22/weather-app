@@ -28,8 +28,6 @@ class _ManageCitiesState extends State<ManageCities> {
     } else {
       storedCities = [];
     }
-    print('yaw $storedCities');
-    print(citiesTempHolder);
   }
 
   Future<List> _loadSavedCities() async {
@@ -58,7 +56,6 @@ class _ManageCitiesState extends State<ManageCities> {
   }
 
   Widget _buildItem(String item, Animation animation, int index) {
-    print('hi thr l ${storedCities.runtimeType}');
     return SizeTransition(
       sizeFactor: animation,
       child: Card(

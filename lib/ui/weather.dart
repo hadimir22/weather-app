@@ -38,7 +38,6 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
 
   void fetchData() async {
     Map data = await getWeather(utils.apiKey, utils.defaultCity);
-    print(data.toString());
   }
 
   Future<Map> getWeather(String apiKey, String city) async {
@@ -102,7 +101,6 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
     } else {
       storedCities = [];
     }
-    print('yaw $storedCities');
   }
 
   Future<List> _loadSavedCities() async {

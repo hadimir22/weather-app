@@ -98,8 +98,6 @@ class _AddCitiesState extends State<AddCities> {
                         elevation: 15.0,
                         onPressed: () {
                           _saveCities(_cityFieldController.text);
-//                          Navigator.pop(
-//                              context, {'enter': _cityFieldController.text});
                         },
                         color: Colors.redAccent,
                         textColor: Colors.white70,
@@ -119,7 +117,9 @@ class _AddCitiesState extends State<AddCities> {
 //style
 
 TextStyle inputStyle() {
-  return new TextStyle(color: Colors.redAccent, fontStyle: FontStyle.normal);
+  return GoogleFonts.josefinSans(
+      textStyle:
+          TextStyle(color: Colors.redAccent, fontStyle: FontStyle.normal));
 }
 
 TextStyle screenName() {

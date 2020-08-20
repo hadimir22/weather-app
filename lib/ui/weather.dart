@@ -59,7 +59,8 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
               margin: EdgeInsets.fromLTRB(0.0, 50, 0.0, 100),
               child: Column(children: <Widget>[
                 Text(
-                  content['main']['temp'].toStringAsFixed(1).toString() + ' C',
+                  content['main']['temp'].toStringAsFixed(1).toString() +
+                      '\u2103',
                   style: weatherStyle(),
                 ),
                 Padding(
@@ -181,7 +182,7 @@ TextStyle weatherStyle() {
       textStyle: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w400,
-          fontSize: 49.9,
+          fontSize: 80.0,
           fontStyle: FontStyle.normal));
 }
 

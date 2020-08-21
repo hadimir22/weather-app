@@ -22,8 +22,6 @@ class _WeatherState extends State<Weather> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
     return FullScreenCarousel();
   }
 }
@@ -113,11 +111,12 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
     } else {
       storedCities = [];
     }
+    print('helps $storedCities');
   }
 
   Future<List> _loadSavedCities() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+//    prefs.setStringList('cities', ['Srinagar']);
     if (prefs.getStringList('cities') != null &&
         prefs.getStringList('cities').isNotEmpty) {
       return prefs.getStringList('cities');

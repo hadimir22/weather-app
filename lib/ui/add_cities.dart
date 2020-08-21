@@ -8,6 +8,7 @@ class AddCities extends StatefulWidget {
 }
 
 class _AddCitiesState extends State<AddCities> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _cityFieldController = new TextEditingController();
   String savedCities = "";
   List<String> selectedCities = List();
@@ -21,20 +22,20 @@ class _AddCitiesState extends State<AddCities> {
       if (storedCities == null) {
         //first time input
         selectedCities.add(city);
+        prefs.setStringList('cities', selectedCities);
       } else {
         if (!storedCities.contains(city)) {
           selectedCities = [...storedCities, city];
+          prefs.setStringList('cities', selectedCities);
+          _cityFieldController.clear();
+          _goToHome();
         } else {
-          print("city already present");
+          showSnackBar('City already present');
         }
       }
-
-      prefs.setStringList('cities', selectedCities);
     } else {
       print("city is null");
     }
-    _cityFieldController.clear();
-    _goToHome();
   }
 
   Future<List> _loadSavedCities() async {
@@ -49,9 +50,18 @@ class _AddCitiesState extends State<AddCities> {
     Navigator.pushNamed(context, 'home');
   }
 
+  void showSnackBar(String text) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text(
+      text,
+      style: snackBarText(),
+    )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text(
           'Add city',
@@ -134,4 +144,10 @@ TextStyle btnText() {
   return GoogleFonts.josefinSans(
       textStyle: TextStyle(
           fontSize: 19.0, fontWeight: FontWeight.bold, color: Colors.white));
+}
+
+TextStyle snackBarText() {
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          fontSize: 19.0, fontWeight: FontWeight.normal, color: Colors.white));
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +36,16 @@ class FullScreenCarousel extends StatefulWidget {
 class _FullScreenCarouselState extends State<FullScreenCarousel> {
   dynamic storedCities;
   String _cityEntered;
+  List<String> imageList = [
+    'images/clear.jpg',
+    'images/clouds.jpg',
+    'images/freeze.jpg',
+    'images/rain.jpg',
+    'images/snow.jpg',
+    'images/stars.jpg',
+    'images/thunder.jpg',
+  ];
+  var random = new Random();
 
   void fetchData() async {
     Map data = await getWeather(utils.apiKey, utils.defaultCity);
@@ -119,6 +130,7 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
+    print(random.nextInt(imageList.length));
     return Builder(
       builder: (context) {
         final double height = MediaQuery.of(context).size.height;
@@ -134,7 +146,8 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
                       body: Stack(
                         children: <Widget>[
                           Center(
-                              child: Image.asset('images/umbrella.png',
+                              child: Image.asset(
+                                  imageList[random.nextInt(imageList.length)],
                                   width: 490.0,
                                   height: 1200.0,
                                   fit: BoxFit.fill)),

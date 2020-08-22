@@ -65,16 +65,18 @@ class _ManageCitiesState extends State<ManageCities> {
             item,
             style: listStyle(),
           ),
-          trailing: IconButton(
-            icon: Icon(
-              Icons.remove_circle,
-              size: 20.0,
-              color: Colors.redAccent,
-            ),
-            onPressed: () {
-              _removeCity(index, item);
-            },
-          ),
+          trailing: storedCities.length > 1
+              ? IconButton(
+                  icon: Icon(
+                    Icons.remove_circle,
+                    size: 20.0,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () {
+                    _removeCity(index, item);
+                  },
+                )
+              : null,
           leading: CircleAvatar(
             backgroundColor: Colors.redAccent,
             child: Text(

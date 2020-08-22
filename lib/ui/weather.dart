@@ -103,20 +103,19 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   }
 
   getCities() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     var citiesTempHolder = await _loadSavedCities();
     if (citiesTempHolder != null && citiesTempHolder.isNotEmpty) {
       setState(() {
         storedCities = citiesTempHolder;
       });
     } else {
-      storedCities = [];
+      prefs.setStringList('cities', ['Srinagar']);
     }
-    print('helps $storedCities');
   }
 
   Future<List> _loadSavedCities() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-//    prefs.setStringList('cities', ['Srinagar']);
     if (prefs.getStringList('cities') != null &&
         prefs.getStringList('cities').isNotEmpty) {
       return prefs.getStringList('cities');

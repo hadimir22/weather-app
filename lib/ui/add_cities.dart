@@ -18,7 +18,6 @@ class _AddCitiesState extends State<AddCities> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (city != null && city.isNotEmpty) {
       storedCities = await _loadSavedCities();
-      print('stored $storedCities');
       if (storedCities == null) {
         //first time input
         selectedCities.add(city);
@@ -35,6 +34,7 @@ class _AddCitiesState extends State<AddCities> {
       }
     } else {
       print("city is null");
+      showSnackBar("city can't be empty");
     }
   }
 
@@ -85,7 +85,7 @@ class _AddCitiesState extends State<AddCities> {
                       icon: Icon(Icons.search, color: Colors.redAccent),
                       onPressed: () => _cityFieldController.clear(),
                     ),
-                    hintText: 'Search city',
+                    hintText: 'Add city',
                     hintStyle: hintStyle(),
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -107,7 +107,7 @@ class _AddCitiesState extends State<AddCities> {
                         disabledColor: Colors.grey,
                         elevation: 15.0,
                         onPressed: () {
-                          _saveCities(_cityFieldController.text);
+                          _saveCities(_cityFieldController.text.toLowerCase());
                         },
                         color: Colors.redAccent,
                         textColor: Colors.white70,
@@ -128,8 +128,10 @@ class _AddCitiesState extends State<AddCities> {
 
 TextStyle inputStyle() {
   return GoogleFonts.josefinSans(
-      textStyle:
-          TextStyle(color: Colors.redAccent, fontStyle: FontStyle.normal));
+      textStyle: TextStyle(
+          color: Colors.redAccent,
+          fontStyle: FontStyle.normal,
+          fontSize: 20.0));
 }
 
 TextStyle screenName() {

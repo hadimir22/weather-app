@@ -52,6 +52,7 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   Future<Map> getWeather(String apiKey, String city) async {
     String apiURL = "${utils.apiURL}$city&APPID=${utils.apiKey}&units=metric";
     http.Response response = await http.get(apiURL);
+//    print('resposne is ${json.decode(response.body)}');
     return json.decode(response.body);
   }
 
@@ -68,22 +69,32 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
               margin: EdgeInsets.fromLTRB(0.0, 50, 0.0, 100),
               child: Column(children: <Widget>[
                 Text(
-                  content['main']['temp'].toStringAsFixed(1).toString() +
-                      '\u2103',
+                  content['message'] != null ? content['message'] : '',
+                  style: noCityStyle(),
+                ),
+                Text(
+                  content['message'] == null
+                      ? content['main']['temp'].toStringAsFixed(1).toString() +
+                          '\u2103'
+                      : '',
                   style: weatherStyle(),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
                   child: Text(
-                    " ${content['weather'][0]['description'].toString()}\n",
+                    content['message'] == null
+                        ? " ${content['weather'][0]['description'].toString()}\n"
+                        : '',
                     style: description(),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
                   child: Text(
-                    "${content['main']['temp_min'].toStringAsFixed(1).toString()} / "
-                    "${content['main']['temp_max'].toStringAsFixed(1).toString()}",
+                    content['message'] == null
+                        ? "${content['main']['temp_min'].toStringAsFixed(1).toString()} / "
+                            "${content['main']['temp_max'].toStringAsFixed(1).toString()}"
+                        : '',
                     style: description(),
                   ),
                 )
@@ -103,15 +114,12 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   }
 
   getCities() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     var citiesTempHolder = await _loadSavedCities();
     if (citiesTempHolder != null && citiesTempHolder.isNotEmpty) {
       setState(() {
         storedCities = citiesTempHolder;
       });
-    } else {
-      prefs.setStringList('cities', ['Srinagar']);
-    }
+    } else {}
   }
 
   Future<List> _loadSavedCities() async {
@@ -128,7 +136,6 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEE, MMM d yyyy').format(now);
-    print(random.nextInt(imageList.length));
     return Builder(
       builder: (context) {
         final double height = MediaQuery.of(context).size.height;
@@ -210,4 +217,10 @@ TextStyle dateStyle() {
   return GoogleFonts.josefinSans(
       textStyle: TextStyle(
           color: Colors.white70, fontSize: 20.0, fontStyle: FontStyle.normal));
+}
+
+TextStyle noCityStyle() {
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.white, fontSize: 50.0, fontWeight: FontWeight.bold));
 }

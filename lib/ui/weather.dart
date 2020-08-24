@@ -18,22 +18,6 @@ class Weather extends StatefulWidget {
 }
 
 class _WeatherState extends State<Weather> {
-  String _cityEntered;
-
-  @override
-  Widget build(BuildContext context) {
-    return FullScreenCarousel();
-  }
-}
-
-class FullScreenCarousel extends StatefulWidget {
-  @override
-  _FullScreenCarouselState createState() => _FullScreenCarouselState();
-}
-
-class _FullScreenCarouselState extends State<FullScreenCarousel> {
-  dynamic storedCities;
-  String _cityEntered;
   List<String> imageList = [
     'images/clear.jpg',
     'images/clouds.jpg',
@@ -45,6 +29,33 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   ];
   var random = new Random();
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Center(
+              child: Image.asset(imageList[random.nextInt(imageList.length)],
+                  width: 490.0, height: 1200.0, fit: BoxFit.fill)),
+          NavBar(),
+          Padding(
+            padding: const EdgeInsets.only(top: 100.0),
+            child: FullScreenCarousel(),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class FullScreenCarousel extends StatefulWidget {
+  @override
+  _FullScreenCarouselState createState() => _FullScreenCarouselState();
+}
+
+class _FullScreenCarouselState extends State<FullScreenCarousel> {
+  dynamic storedCities;
+
   void fetchData() async {
     Map data = await getWeather(utils.apiKey, utils.defaultCity);
   }
@@ -52,7 +63,6 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   Future<Map> getWeather(String apiKey, String city) async {
     String apiURL = "${utils.apiURL}$city&APPID=${utils.apiKey}&units=metric";
     http.Response response = await http.get(apiURL);
-//    print('resposne is ${json.decode(response.body)}');
     return json.decode(response.body);
   }
 
@@ -65,8 +75,6 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
           if (snapshot.hasData) {
             Map content = snapshot.data;
             return Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.fromLTRB(0.0, 50, 0.0, 100),
               child: Column(children: <Widget>[
                 Text(
                   content['message'] != null ? content['message'] : '',
@@ -139,9 +147,9 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
     return Builder(
       builder: (context) {
         final double height = MediaQuery.of(context).size.height;
-        print('sasassassa $storedCities');
         return storedCities == null
             ? Container(
+                color: Colors.black26,
                 child: Center(
                     child: CircularProgressIndicator(
                   backgroundColor: Colors.redAccent,
@@ -155,42 +163,32 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
                   enableInfiniteScroll: false,
                 ),
                 items: storedCities
-                    .map<Widget>((city) => Scaffold(
-                          body: Stack(
-                            children: <Widget>[
-                              Center(
-                                  child: Image.asset(
-                                      imageList[
-                                          random.nextInt(imageList.length)],
-                                      width: 490.0,
-                                      height: 1200.0,
-                                      fit: BoxFit.fill)),
-                              NavBar(),
-                              Container(
-                                alignment: Alignment.topCenter,
-                                margin: const EdgeInsets.fromLTRB(
-                                    0.0, 180.0, 0.0, 0.0),
-                                child: Column(
-                                  children: <Widget>[
-//                                Text(
-//                                  '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
-//                                  style: cityStyle(),
-//                                ),
-                                    Text('$city', style: cityStyle()),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        '$formattedDate',
-                                        style: dateStyle(),
-                                      ),
+                    .map<Widget>(
+                      (city) => Container(
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.topCenter,
+                              margin: const EdgeInsets.fromLTRB(
+                                  0.0, 180.0, 0.0, 0.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text('$city', style: cityStyle()),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      '$formattedDate',
+                                      style: dateStyle(),
                                     ),
-                                    updateTempWidget(city)
-                                  ],
-                                ),
+                                  ),
+                                  updateTempWidget(city)
+                                ],
                               ),
-                            ],
-                          ),
-                        ))
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                     .toList());
       },
     );

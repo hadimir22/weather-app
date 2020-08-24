@@ -139,50 +139,59 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
     return Builder(
       builder: (context) {
         final double height = MediaQuery.of(context).size.height;
-        return CarouselSlider(
-            options: CarouselOptions(
-              height: height,
-              viewportFraction: 1.0,
-              enlargeCenterPage: false,
-              enableInfiniteScroll: false,
-            ),
-            items: storedCities
-                .map<Widget>((city) => Scaffold(
-                      body: Stack(
-                        children: <Widget>[
-                          Center(
-                              child: Image.asset(
-                                  imageList[random.nextInt(imageList.length)],
-                                  width: 490.0,
-                                  height: 1200.0,
-                                  fit: BoxFit.fill)),
-                          NavBar(),
-                          Container(
-                            alignment: Alignment.topCenter,
-                            margin:
-                                const EdgeInsets.fromLTRB(0.0, 180.0, 0.0, 0.0),
-                            child: Column(
-                              children: <Widget>[
+        print('sasassassa $storedCities');
+        return storedCities == null
+            ? Container(
+                child: Center(
+                    child: CircularProgressIndicator(
+                  backgroundColor: Colors.redAccent,
+                )),
+              )
+            : CarouselSlider(
+                options: CarouselOptions(
+                  height: height,
+                  viewportFraction: 1.0,
+                  enlargeCenterPage: false,
+                  enableInfiniteScroll: false,
+                ),
+                items: storedCities
+                    .map<Widget>((city) => Scaffold(
+                          body: Stack(
+                            children: <Widget>[
+                              Center(
+                                  child: Image.asset(
+                                      imageList[
+                                          random.nextInt(imageList.length)],
+                                      width: 490.0,
+                                      height: 1200.0,
+                                      fit: BoxFit.fill)),
+                              NavBar(),
+                              Container(
+                                alignment: Alignment.topCenter,
+                                margin: const EdgeInsets.fromLTRB(
+                                    0.0, 180.0, 0.0, 0.0),
+                                child: Column(
+                                  children: <Widget>[
 //                                Text(
 //                                  '${_cityEntered == null ? utils.defaultCity : _cityEntered}',
 //                                  style: cityStyle(),
 //                                ),
-                                Text('$city', style: cityStyle()),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '$formattedDate',
-                                    style: dateStyle(),
-                                  ),
+                                    Text('$city', style: cityStyle()),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        '$formattedDate',
+                                        style: dateStyle(),
+                                      ),
+                                    ),
+                                    updateTempWidget(city)
+                                  ],
                                 ),
-                                updateTempWidget(city)
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ))
-                .toList());
+                        ))
+                    .toList());
       },
     );
   }

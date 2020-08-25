@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,7 @@ class ManageCities extends StatefulWidget {
 class _ManageCitiesState extends State<ManageCities> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   dynamic storedCities;
+  List<String> citiesToRemove = List<String>();
 //  List<String> storedCities = List();
 
   @override
@@ -42,10 +44,12 @@ class _ManageCitiesState extends State<ManageCities> {
   }
 
   void _removeCity(int index, String city) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var citiesTempHolder = await _loadSavedCities();
-    citiesTempHolder.remove(city);
-    await prefs.setStringList('cities', citiesTempHolder);
+//
+//
+//
+//
+
+    citiesToRemove.add(city);
 
     int removeIndex = index;
     String removedItem = storedCities.removeAt(removeIndex);
@@ -53,6 +57,24 @@ class _ManageCitiesState extends State<ManageCities> {
       return _buildItem(removedItem, animation, index);
     };
     _listKey.currentState.removeItem(removeIndex, builder);
+  }
+
+  void save() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('cities to remove $citiesToRemove');
+    if (citiesToRemove != null && citiesToRemove.isNotEmpty) {
+      var citiesTempHolder = await _loadSavedCities();
+      citiesToRemove.every((city) {
+        citiesTempHolder.remove(city);
+        return true;
+      });
+      await prefs.setStringList('cities', citiesTempHolder);
+    }
+    _goToHome();
+  }
+
+  void _goToHome() {
+    Navigator.pushNamed(context, 'home');
   }
 
   Widget _buildItem(String item, Animation animation, int index) {
@@ -92,24 +114,53 @@ class _ManageCitiesState extends State<ManageCities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          title: new Text(
-            'Manage cities',
-            style: screenName(),
-          ),
-          backgroundColor: Colors.redAccent,
+      appBar: new AppBar(
+        title: new Text(
+          'Manage cities',
+          style: screenName(),
         ),
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: AnimatedList(
-            key: _listKey,
-            initialItemCount: storedCities.length,
-            itemBuilder: (context, index, animation) {
-              return _buildItem(storedCities[index], animation, index);
-            },
+        backgroundColor: Colors.redAccent,
+      ),
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            flex: 10,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: AnimatedList(
+                key: _listKey,
+                initialItemCount: storedCities.length,
+                itemBuilder: (context, index, animation) {
+                  return _buildItem(storedCities[index], animation, index);
+                },
+              ),
+            ),
           ),
-        ));
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0.2, 0.0, 0.2, 10.0),
+              child: ListTile(
+                  title: RaisedButton(
+                      splashColor: Colors.black26,
+                      disabledColor: Colors.grey,
+                      elevation: 15.0,
+                      onPressed: () {
+                        save();
+                      },
+                      color: Colors.redAccent,
+                      textColor: Colors.white70,
+                      child: Text(
+                        "Save",
+                        style: saveText(),
+                      ))),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 
@@ -132,4 +183,10 @@ TextStyle avatarText() {
   return GoogleFonts.josefinSans(
       textStyle: TextStyle(
           color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold));
+}
+
+TextStyle saveText() {
+  return GoogleFonts.josefinSans(
+      textStyle: TextStyle(
+          color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold));
 }

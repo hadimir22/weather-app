@@ -116,6 +116,7 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
   @override
   void initState() {
     // This is called on init
+    print("called");
     super.initState();
     getCities();
   }

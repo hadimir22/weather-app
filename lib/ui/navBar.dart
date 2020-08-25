@@ -60,10 +60,7 @@ class _NavBarState extends State<NavBar> {
   }
 
   void _goToManageCities() {
-//    Navigator.pushNamed(context, '/manageCities');
-    Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ManageCities()))
-        .then((value) => print("hi"));
+    Navigator.pushNamed(context, '/manageCities');
   }
 }
 

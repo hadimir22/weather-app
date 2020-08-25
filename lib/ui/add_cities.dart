@@ -101,7 +101,7 @@ class _AddCitiesState extends State<AddCities> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.2, 0.0, 0.2, 10.0),
-                child: new ListTile(
+                child: ListTile(
                     title: RaisedButton(
                         splashColor: Colors.black26,
                         disabledColor: Colors.grey,
@@ -111,7 +111,7 @@ class _AddCitiesState extends State<AddCities> {
                         },
                         color: Colors.redAccent,
                         textColor: Colors.white70,
-                        child: new Text(
+                        child: Text(
                           "Add",
                           style: btnText(),
                         ))),

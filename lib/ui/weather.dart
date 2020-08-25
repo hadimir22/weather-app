@@ -23,7 +23,6 @@ class _WeatherState extends State<Weather> {
     'images/clouds.jpg',
     'images/freeze.jpg',
     'images/rain.jpg',
-    'images/snow.jpg',
     'images/stars.jpg',
     'images/thunder.jpg',
   ];
@@ -134,10 +133,11 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getStringList('cities') != null &&
         prefs.getStringList('cities').isNotEmpty) {
-      return prefs.getStringList('cities');
     } else {
       print('no city');
+      prefs.setStringList('cities', ['srinagar']);
     }
+    return prefs.getStringList('cities');
   }
 
   @override

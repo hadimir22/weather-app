@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'manage_cities.dart';
+
 class NavBar extends StatefulWidget {
   @override
   _NavBarState createState() => _NavBarState();
@@ -58,7 +60,10 @@ class _NavBarState extends State<NavBar> {
   }
 
   void _goToManageCities() {
-    Navigator.pushNamed(context, '/manageCities');
+//    Navigator.pushNamed(context, '/manageCities');
+    Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ManageCities()))
+        .then((value) => print("hi"));
   }
 }
 

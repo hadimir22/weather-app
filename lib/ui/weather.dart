@@ -153,7 +153,8 @@ class _FullScreenCarouselState extends State<FullScreenCarousel> {
                 color: Colors.black26,
                 child: Center(
                     child: CircularProgressIndicator(
-                  backgroundColor: Colors.redAccent,
+                  valueColor:
+                      new AlwaysStoppedAnimation<Color>(Colors.redAccent),
                 )),
               )
             : CarouselSlider(

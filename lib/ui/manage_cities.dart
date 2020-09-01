@@ -12,7 +12,6 @@ class _ManageCitiesState extends State<ManageCities> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   dynamic storedCities;
   List<String> citiesToRemove = List<String>();
-//  List<String> storedCities = List();
 
   @override
   void initState() {
@@ -44,11 +43,6 @@ class _ManageCitiesState extends State<ManageCities> {
   }
 
   void _removeCity(int index, String city) async {
-//
-//
-//
-//
-
     citiesToRemove.add(city);
 
     int removeIndex = index;
@@ -143,19 +137,21 @@ class _ManageCitiesState extends State<ManageCities> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0.2, 0.0, 0.2, 10.0),
               child: ListTile(
-                  title: RaisedButton(
-                      splashColor: Colors.black26,
-                      disabledColor: Colors.grey,
-                      elevation: 15.0,
-                      onPressed: () {
-                        save();
-                      },
-                      color: Colors.redAccent,
-                      textColor: Colors.white70,
-                      child: Text(
-                        "Save",
-                        style: saveText(),
-                      ))),
+                title: RaisedButton(
+                  splashColor: Colors.black26,
+                  disabledColor: Colors.grey,
+                  elevation: 15.0,
+                  onPressed: () {
+                    save();
+                  },
+                  color: Colors.redAccent,
+                  textColor: Colors.white70,
+                  child: Text(
+                    "Save",
+                    style: saveText(),
+                  ),
+                ),
+              ),
             ),
           )
         ],

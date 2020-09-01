@@ -102,19 +102,21 @@ class _AddCitiesState extends State<AddCities> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.2, 0.0, 0.2, 10.0),
                 child: ListTile(
-                    title: RaisedButton(
-                        splashColor: Colors.black26,
-                        disabledColor: Colors.grey,
-                        elevation: 15.0,
-                        onPressed: () {
-                          _saveCities(_cityFieldController.text.toLowerCase());
-                        },
-                        color: Colors.redAccent,
-                        textColor: Colors.white70,
-                        child: Text(
-                          "Add",
-                          style: btnText(),
-                        ))),
+                  title: RaisedButton(
+                    splashColor: Colors.black26,
+                    disabledColor: Colors.grey,
+                    elevation: 15.0,
+                    onPressed: () {
+                      _saveCities(_cityFieldController.text.toLowerCase());
+                    },
+                    color: Colors.redAccent,
+                    textColor: Colors.white70,
+                    child: Text(
+                      "Add",
+                      style: btnText(),
+                    ),
+                  ),
+                ),
               ),
             ],
           )
